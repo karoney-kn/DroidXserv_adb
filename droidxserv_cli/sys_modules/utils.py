@@ -118,6 +118,21 @@ class banner:
 
 
 
+    droidxserv_start = f"""
+
+    █▀▄ █▀█ █▀█ █ █▀▄    
+    █▄▀ █▀▄ █▄█ █ █▄▀ \033[33m</ToolKit >
+
+    ┌══════════════════════════════════════════════════════════┐
+    █                                                          █
+    █    |X serv       >>>>                                    █
+    █                                                          █
+    └══════════════════════════════════════════════════════════┘
+
+    \033[37m[X] Multipurpose ADB Toolkit  [X]
+    \033[97m     
+    """
+
     droid_toolkit = f"""
 
     ▄▀█ █▄░█ █▀▄ █▀█ █▀█ █ █▀▄    
@@ -411,12 +426,12 @@ def sf_spacing(content: str):
     return tabbed_content
 
 
-
+starting_droidxserv = random.choice(color.color_list) + banner.droidxserv_start
 main_banner = random.choice(color.color_list) + banner.droid_toolkit
 droid_adb_command = random.choice(color.color_list) + banner.android_adb_command
-droid_connect_banner = random.choice(color.color_list) + banner.android_connect
+droidx_connect_banner = random.choice(color.color_list) + banner.android_connect
 droid_devlist_banner = random.choice(color.color_list) + banner.android_devlist
-droid_scrcpy_banner = random.choice(color.color_list) + banner.android_scrcpy
+droidx_scrcpy_banner = random.choice(color.color_list) + banner.android_scrcpy
 droid_sys_banner = random.choice(color.color_list) + banner.android_sys
 droid_nav_banner = random.choice(color.color_list) + banner.android_nav
 droid_screensr_banner = random.choice(color.color_list) + banner.android_screensr
@@ -426,8 +441,6 @@ droid_reboot_banner = random.choice(color.color_list) + banner.android_reboot
 droid_audio_kit = random.choice(color.color_list) + banner.android_audio_kit
 droid_audio_recorder = random.choice(color.color_list) + banner.android_audio_recorder
 droid_audio_stream = random.choice(color.color_list) + banner.android_audio_stream
-
-
 
 
 
@@ -441,20 +454,33 @@ def clear_screen():
 
 
 """Displays banner and menu"""
+def banner_display(menu_item:str):
+    clear_screen()
+    print(menu_item)
 
+def droid_scrcpy_banner():
+    clear_screen()
+    print(droidx_scrcpy_banner)
 
+def starting_droidxserv_banner():
+    clear_screen()
+    print(starting_droidxserv)
+
+def droid_connect_banner():
+
+    clear_screen()
+    print(droidx_connect_banner)
 
 def screensr_menu():
-    """Displays banner and menu"""
+
     clear_screen()
     print(droid_screensr_banner,banner.screensr_menu)
 def droid_adb_command_menu():
-    """Displays banner and menu"""
     clear_screen()
     print(droid_adb_command,banner.android_adb_command_menu)
 
 def droid_sys_menu():
-    """Displays banner and menu"""
+
     clear_screen()
     print(droid_sys_banner,banner.sys_action_menu)
 

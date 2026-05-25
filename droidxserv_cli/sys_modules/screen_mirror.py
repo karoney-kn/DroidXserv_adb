@@ -3,20 +3,25 @@ import sys
 import time
 import subprocess
 import adbutils
-import adb_connect
+from sys_modules import utils,adb_connect,color
+
+indent = " " * 4
 
 def adb_command_center():
-
+    utils.droid_adb_command_menu()
     while True:
-        adb_com = input(f"""    
-        [99. Clear screen                   0. Back]
-        [scrcpy_noaudio | scrcpy | scrcpy_anon | back] \n
-        [ADB command] Enter selection >>> """).lower()
-
+        menu=f"""    
+        [{color.CYAN}99.{color.ORANGE} Clear screen                           {color.CYAN}0.{color.ORANGE} Back{color.WHITE}]
+        {color.WHITE}[scrcpy_noaudio | scrcpy | scrcpy_anon | syscom | clear | back] \n
+        {color.YELLOW}[ADB command]{color.WHITE} Enter selection {color.GREEN}>>>{color.WHITE} """
+        input_menu = utils.sf_spacing(menu)
+        adb_com = input(input_menu).lower()
         match adb_com:
-            
             case "0"|"back"|"cd ..":
-                 break
+                utils.display_main_menu()
+                break
+            case "99"|"clear":
+                utils.droid_adb_command_menu()
             case "1"|"scrcpy_noaudio":
                 screencopy_noaudio()
             case "2"|"scrcpy":
@@ -24,10 +29,12 @@ def adb_command_center():
             case "3"|"scrcpy_anon":
                 screencopy_anon()
             case "devices":
+                utils.droid_adb_command_menu()
                 adb_connect.list_devices()
             case other:
                 print(f"\n\t[X] Invalid selection\n\tPlease enter a valid option on menu above\n")
                 time.sleep(3)
+                utils.droid_adb_command_menu()
 
 
 #--------------------------------------------------------------------------#
@@ -49,11 +56,6 @@ def run_scrcpy(unique_args: list[str],max_fps: int = 60,max_size: int = 1024,bit
     print(f"\n\tRUNNING: {' '.join(sc_commands)}\n")
     try:
         result = subprocess.run(sc_commands, check=True)
-        # scrcpy usually writes logs to stderr
-        #output = result.stderr
-        #process = subprocess.Popen(sc_commands,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
-        #for line in process.stdout:
-        #    print(f"\t{line}", end="")
 
 
     except subprocess.CalledProcessError as e:
@@ -76,12 +78,14 @@ def screencopy_noaudio():
                 [Screensr] Enter selection (Default = Yes)>>>  """).lower()
                 match close_option:
                     case ""|"1"|"Y"|"Yes":
+                        utils.clear_screen()
                         break
                     case " "|"2"|"N"|"No":
                         run_scrcpy(["--no-audio"])
                     case other:
                          print(f"\n\t[X] Invalid selection\n\tPlease enter a valid option on menu above\n")
                 
+
 
     con_devices = adbutils.adb.device_list()
     if len(con_devices) == 0:
@@ -90,7 +94,7 @@ def screencopy_noaudio():
         time.sleep(0.8)
         print(f"\n\tChecking for connection ......\n")
         time.sleep(1.2)
-        adb_connect.xconnect()
+        adb_connect.connect(banner_switch=True)
         time.sleep(1.2)
         con_devx = adbutils.adb.device_list()
         if len(con_devx) != 0:
@@ -99,7 +103,9 @@ def screencopy_noaudio():
         screencopy_noaudiokit()
 
 def screencopy():
-    def screencopykit():        
+    
+    def screencopykit():
+        utils.droid_scrcpy_banner()        
         print(f'\t[Info] Starting scrcpy Audio Duplicate ......\n')
         time.sleep(0.5)
         try:
@@ -119,6 +125,7 @@ def screencopy():
                         print(f"\n\t[X] Invalid selection\n\tPlease enter a valid option on menu above\n")
 
 
+
     con_devices = adbutils.adb.device_list()
     if len(con_devices) == 0:
         print("\n")
@@ -126,7 +133,7 @@ def screencopy():
         time.sleep(0.8)
         print(f"\n\tChecking for connection ......\n")
         time.sleep(1.2)
-        adb_connect.xconnect()
+        adb_connect.connect(banner_switch=True)
         time.sleep(1.2)
         con_devx = adbutils.adb.device_list()
         if len(con_devx) != 0:
@@ -135,7 +142,9 @@ def screencopy():
         screencopykit()
 
 def screencopy_anon():
-    def screencopykit_anon():        
+    
+    def screencopykit_anon(): 
+        utils.droid_scrcpy_banner()       
         print(f'\t[Info] Starting scrcpy  Anonymous......\n')
         time.sleep(0.5)
         try:
@@ -164,7 +173,7 @@ def screencopy_anon():
                     print(f"\n\t[X] Invalid selection\n\tPlease enter a valid option on menu above\n")
 
 
-        
+
     con_devices = adbutils.adb.device_list()
     if len(con_devices) == 0:
         print("\n")
@@ -172,7 +181,7 @@ def screencopy_anon():
         time.sleep(0.8)
         print(f"\n\tChecking for connection ......\n")
         time.sleep(1.2)
-        adb_connect.xconnect()
+        adb_connect.connect(banner_switch=True)
         time.sleep(1.2)
         con_devx = adbutils.adb.device_list()
         if len(con_devx) != 0:
@@ -180,5 +189,3 @@ def screencopy_anon():
     else:
         screencopykit_anon()
 
-
-adb_command_center()
