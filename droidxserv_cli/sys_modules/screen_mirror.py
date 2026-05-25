@@ -95,7 +95,6 @@ def screencopy_noaudio():
         print(f"\n\tChecking for connection ......\n")
         time.sleep(1.2)
         adb_connect.connect(banner_switch=True)
-        time.sleep(1.2)
         con_devx = adbutils.adb.device_list()
         if len(con_devx) != 0:
             screencopy_noaudiokit()
@@ -134,7 +133,6 @@ def screencopy():
         print(f"\n\tChecking for connection ......\n")
         time.sleep(1.2)
         adb_connect.connect(banner_switch=True)
-        time.sleep(1.2)
         con_devx = adbutils.adb.device_list()
         if len(con_devx) != 0:
             screencopykit()
@@ -182,7 +180,6 @@ def screencopy_anon():
         print(f"\n\tChecking for connection ......\n")
         time.sleep(1.2)
         adb_connect.connect(banner_switch=True)
-        time.sleep(1.2)
         con_devx = adbutils.adb.device_list()
         if len(con_devx) != 0:
             screencopykit_anon()

@@ -80,7 +80,7 @@ def run_adb_command(command: list[str]):
 
 
 def check_if_ip(possible_ip: str) -> bool:
-
+    
     ip_parts = possible_ip.split(".")
     try:
         [int(part) for part in ip_parts]
@@ -113,7 +113,7 @@ def get_adb_android_ip(connection_type_flag: str | None = None):
 
 
 def connect_to_wireless(ip: str, port: str | int = "5555"):
-    utils.droid_connect_banner()
+    u
     port = str(port)
     if ip is None:
         return
@@ -231,6 +231,7 @@ def network_scanner():
 
                 
 def network_scan():
+    utils.droid_connect_banner() 
     network_scanner()
     utils.display_main_menu()
     with open(scanned_devices, 'r') as dev_ips:
@@ -249,28 +250,7 @@ def network_scan():
                     print(f"{indent}{color.WHITE}[{color.GREEN}{dev_key}{color.WHITE}]{color.WHITE}. {color.YELLOW}{dev_addr}")
             print("\n")
 
-def scrcpy_connect():
-    try:
-        phone_ip = get_adb_android_ip("-d")
-        start_debugging_server()
-        if phone_ip is None:
-            return
-        connect_to_wireless(phone_ip)
-    except:    
-        network_scanner()
-        utils.droid_adb_command_menu()
-        
-def main_connect():
-    try:
-        phone_ip = get_adb_android_ip("-d")
-        start_debugging_server()
-        if phone_ip is None:
-            return
-        connect_to_wireless(phone_ip)
-    except:    
-        network_scanner()
-        utils.display_main_menu()
-        
+
 
 
 def menu_switch(banner_switch=True):
@@ -281,13 +261,15 @@ def menu_switch(banner_switch=True):
 
 
 def connect(banner_switch=True):
+    utils.droid_connect_banner()
     try:
         phone_ip = get_adb_android_ip("-d")
         start_debugging_server()
         if phone_ip is None:
             return
         connect_to_wireless(phone_ip)
-    except:    
+    except:
+            
         network_scanner()
         menu_switch(banner_switch)
         with open(scanned_devices, 'r') as dev_ips:
